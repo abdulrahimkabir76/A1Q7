@@ -83,7 +83,4 @@ No other diagonals or movement orders are permitted.
 ## Notes
 
 - All algorithms animate their progress step-by-step.
-- No dynamic obstacles are allowed.
-- The code is modular and PEP8 compliant.
-
 ---
