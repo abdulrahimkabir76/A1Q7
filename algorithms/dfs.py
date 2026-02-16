@@ -1,20 +1,17 @@
-# algorithms/bfs.py
-from collections import deque
+# algorithms/dfs.py
 from node import Node
 from utils import MOVES
 
-def bfs(grid, start, target, gui=None):
-    queue = deque()
-    queue.append(start)
+def dfs(grid, start, target, gui=None):
+    stack = [start]
     visited = set()
     visited.add((start.row, start.col))
-    parent_map = {}
     explored = set()
     frontier = set([(start.row, start.col)])
     expanded = 0
 
-    while queue:
-        current = queue.popleft()
+    while stack:
+        current = stack.pop()
         pos = (current.row, current.col)
         frontier.discard(pos)
         explored.add(pos)
@@ -33,13 +30,12 @@ def bfs(grid, start, target, gui=None):
                 current = current.parent
             return path[::-1], expanded, explored, frontier
 
-        for dr, dc in MOVES:
+        for dr, dc in MOVES[::-1]:  # Reverse for stack to preserve order
             nr, nc = current.row + dr, current.col + dc
             if grid.in_bounds(nr, nc) and not grid.is_wall(nr, nc):
                 if (nr, nc) not in visited:
                     visited.add((nr, nc))
                     neighbor = Node(nr, nc, current)
-                    queue.append(neighbor)
-                    parent_map[(nr, nc)] = current
+                    stack.append(neighbor)
                     frontier.add((nr, nc))
     return None, expanded, explored, frontier
